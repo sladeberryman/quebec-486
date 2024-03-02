@@ -1,0 +1,35 @@
+<%- include('partials/html-start.ejs') %>
+<link rel="stylesheet" href="/styles/styles.css">
+<style>
+  h1 {
+    text-align: center;
+  }
+</style>
+
+<h1>Welcome to Slade's Name App</h1>
+
+<p>
+   Current Jobs: <%= jobData.length %>
+</p>
+
+//todo: display the contents of the nameData...not just the length. 
+<div class="col-md-3">
+  <div class="card m-8 bg-secondary text-white">
+      <div class="card-body">
+        <h3>Add New Name </h3>
+        <form method="POST" action="/addName">
+            <label for="jobName">Enter a Name</label>
+            <input name="jobName" placeholder="new job name">
+            <input type="submit" value="add a new job" />
+        </form>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+                
+
+<%- include('partials/html-end.ejs') %>
