@@ -1,31 +1,33 @@
 <%- include('partials/html-start.ejs') %>
-<link rel="stylesheet" href="/styles/styles.css">
-<style>
-  h1 {
-    text-align: center;
-  }
-</style>
+<head>
+  <meta charset="UTF-8">
+  <title></title>
 
-<h1>Welcome to Slade's Name App</h1>
+  <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.2/css/bootstrap.min.css'>
+  <link rel="stylesheet" href="./public/styles/style.css">
+</head>
 
-<p>
-   Current Jobs: <%= jobData.length %>
-</p>
+<body>
+  <div class="bg-image"></div>
 
-//todo: display the contents of the nameData...not just the length. 
-<div class="col-md-3">
-  <div class="card m-8 bg-secondary text-white">
-      <div class="card-body">
-        <h3>Add New Name </h3>
-        <form method="POST" action="/addName">
-            <label for="jobName">Enter a Name</label>
-            <input name="jobName" placeholder="new job name">
-            <input type="submit" value="add a new job" />
-        </form>
-    </div>
+  <div class="container">
+      <h1>Let's play a name game.</h1>
+      <form>
+        <div class="mb-3">
+          <label for="nameInput" class="form-label">Your name:</label>
+          <input type="text" class="form-control" id="nameInput" placeholder="Enter your name" required>
+        </div>
+        <button type="submit" class="btn btn-primary" id="submit-btn">Submit</button>
+      </form>
+      <h3 id="pig-latin"></h3>
+      <h3 id="spirit-animal"></h3>
   </div>
-</div>
 
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js'></script>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js'></script>
+  <script  src="./public/scripts/script.js"></script>
+</body>
+</html>
 
 
 
