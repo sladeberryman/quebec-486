@@ -1,37 +1,168 @@
 <%- include('partials/html-start.ejs') %>
-<head>
-  <meta charset="UTF-8">
-  <title></title>
+  <link rel="stylesheet" href="/Styles/styles.css">
 
-  <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.2/css/bootstrap.min.css'>
-  <link rel="stylesheet" href="./public/styles/style.css">
-</head>
-
-<body>
-  <div class="bg-image"></div>
-
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-warning fixed-top">
   <div class="container">
-      <h1>Let's play a name game.</h1>
-      <form>
-        <div class="mb-3">
-          <label for="nameInput" class="form-label">Your name:</label>
-          <input type="text" class="form-control" id="nameInput" placeholder="Enter your name" required>
-        </div>
-        <button type="submit" class="btn btn-primary" id="submit-btn">Submit</button>
-      </form>
-      <h3 id="pig-latin"></h3>
-      <h3 id="spirit-animal"></h3>
+      <a class="navbar-brand" href="https://github.com/sladeberryman/quebec-486" target="_blank">Name Game Library</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="https://gist.github.com/barrycumbie/978e0a8f517669733f61d44008e6924c" target="_blank">Quebec Story Card</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="https://github.com/sladeberryman/quebec-486" target="_blank">Slade's Quebec Repo</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<hr>
+<br>
+<br>
+
+<style>
+  iframe {
+    height: 220px;
+    width: 100%;
+    border: 0;
+  }
+</style>
+
+<!-- Header -->
+<div class="row justify-content-center">
+  <div class="col-4">
+    <div class="card text-center mb-3">
+      <div class="card-body">
+        <iframe src="https://sladeberryman.github.io/delta-376/"></iframe>
+      </div>
+    </div>
   </div>
 
-  <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js'></script>
-  <script src='https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js'></script>
-  <script  src="./public/scripts/script.js"></script>
-</body>
-</html>
+  <div class="col d-flex justify-content-center col-md-3">
+    <div class="card m-8 bg-info text-black">
+      <div class="card-body">
+        <h3>Add Your Info</h3>
+        <form method="POST" action="/addName">
+          <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+          <input name="name" placeholder="Name">
+          <input name="pigLatinName" placeholder="Pig Latin Name">
+          <input name="spiritAnimal" placeholder="Spirit Animal">
+          <input type="submit" value="Add to Library" class="btn btn-success"/>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
 
 
 
 
-                
+<!--  -->
 
-<%- include('partials/html-end.ejs') %>
+  <div class="container-fluid">
+    <div class="row">
+      <!-- This shows current name info with update/del -->
+      <div class="col d-flex justify-content-center" class="col-md-3">
+        <div class="container-fluid">
+          <div class="card m-4 bg-info text-black">
+            <h4 class="card-title">~ Library Records: <%= nameData.length %></h4>
+            <div class="card-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Pig Latin Name</th>
+                    <th scope="col">Spirit Animal</th>
+                    <th scope="col"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% for (var i = 0; i < nameData.length; i++) { %>
+                    <tr>
+                      <td>
+                        <form id="updateForm<%= i %>" method="POST" action="/updateName">
+                          <input type="hidden" name="devId" value="<%= nameData[i]._id %>">
+                          <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                          <input type="text" name="name" value="<%= nameData[i].name %>">
+                      </td>
+                      <td>
+                        <input type="text" name="pigLatinName" value="<%= nameData[i].pigLatinName %>">
+                      </td>
+                      <td>
+                        <input type="text" name="spiritAnimal" value="<%= nameData[i].spiritAnimal %>">
+                      </td>
+                      <td>
+                          <button class="btn btn-secondary" type="submit" form="updateForm<%= i %>">Update Name Info</button>
+                        </form>
+                        <form method="POST" action="/deleteName">
+                          <input type="hidden" name="devId" value="<%= nameData[i]._id %>">
+                          <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                          <button class="btn btn-danger" type="submit">Delete Name Info</button>
+                        </form>
+                      </td>
+                    </tr>
+                  <% } %>
+                </tbody>
+              </table>
+            </div>
+            </thead>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <footer class="text-center text-lg-start bg-warning text-muted">
+    <hr>
+
+    <section class="">
+      <div class="container text-center text-md-start mt-5">
+        <div class="row mt-3">
+  
+          <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
+            <h6 class="text-uppercase fw-bold mb-4">
+              Quick Links
+            </h6>
+            <p>
+              <a href="https://github.com/sladeberryman/quebec-486/" target="_blank" class="text-reset">See This Repo</a>
+            </p>
+            <p>
+              <a href="https://www.google.com/search?q=what+does+my+name+mean&rlz=1C1ONGR_enUS1033US1092&oq=what+does+my+nam&gs_lcrp=EgZjaHJvbWUqBwgAEAAYgAQyBwgAEAAYgAQyBwgBEAAYgAQyBwgCEAAYgAQyBggDEEUYOTIHCAQQABiABDIHCAUQABiABDIHCAYQABiABDIHCAcQABiABDIHCAgQABiABDIHCAkQABiABKgCALACAA&sourceid=chrome&ie=UTF-8" target="_blank" class="text-reset">Continue the Journey</a>
+            </p>
+          </div>
+  
+          <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
+            <h6 class="text-uppercase fw-bold mb-4">
+            Media
+            </h6>
+            <p>
+              <a href="https://www.linkedin.com/in/sladeberryman/" target="_blank" class="text-reset">LinkedIn</a>
+            </p>
+            <p>
+              <a href="https://github.com/sladeberryman" target="_blank" class="text-reset">GitHub</a>
+            </p>
+          </div>
+  
+          <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
+            <h6 class="text-uppercase fw-bold mb-4">Contact Me</h6>
+            <p>
+              slade12berryman@gmail.com
+            </p>
+            <p>256-856-3669</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  
+    <div class="text-center p-4" style="background-color: rgba(0, 0, 0, 0.05);">
+      © 2024 Copyright: Slade Berryman
+    </div>
+  </footer>
+
+  <%- include('partials/html-end.ejs') %>
